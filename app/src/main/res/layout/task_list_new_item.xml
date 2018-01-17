@@ -10,11 +10,7 @@
         android:layout_weight="1"
         android:ems="10"
         android:hint="New Task"
+        android:imeOptions="actionDone"
         android:inputType="textPersonName" />
 
-    <Button
-        android:id="@+id/task_add_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 </LinearLayout>
