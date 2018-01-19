@@ -1,9 +1,17 @@
 package com.janek.todolist.commons.models
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import com.janek.todolist.commons.adapter.AdapterConstants
 import com.janek.todolist.commons.adapter.ViewType
 
-data class TaskItem(val text: String,
-                    var done: Boolean = false) : ViewType {
-    override fun getViewType(): Int = AdapterConstants.TASK
+@Entity(tableName = "task_items")
+data class TaskItem(@ColumnInfo(name = "task_text") var text: String,
+                    @ColumnInfo(name = "task_done") var done: Boolean = false,
+                    @ColumnInfo(name = "task_type") var type: Int = AdapterConstants.TASK) : ViewType {
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true) var id: Long = 0
+
+    override fun getViewType(): Int = type
 }
