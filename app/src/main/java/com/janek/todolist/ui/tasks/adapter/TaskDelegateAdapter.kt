@@ -12,10 +12,13 @@ import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
 import com.janek.todolist.commons.extensions.inflate
 import com.janek.todolist.commons.models.TaskItem
 
-class TaskDelegateAdapter(private val onTaskComplete: (TaskItem) -> Unit) : ViewTypeDelegateAdapter {
+class TaskDelegateAdapter(
+        private val onTaskComplete: (TaskItem) -> Unit,
+        private val onTaskEditStart: (TaskItem) -> Unit
+) : ViewTypeDelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return TaskViewHolder(parent.inflate(R.layout.task_list_item), onTaskComplete)
+        return TaskViewHolder(parent.inflate(R.layout.task_list_item), onTaskComplete, onTaskEditStart)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
@@ -24,7 +27,8 @@ class TaskDelegateAdapter(private val onTaskComplete: (TaskItem) -> Unit) : View
 
     class TaskViewHolder(
             itemView: View,
-            private val onTaskComplete: (TaskItem) -> Unit
+            private val onTaskComplete: (TaskItem) -> Unit,
+            private val onTaskEditStart: (TaskItem) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
 
         private val checkBox: CheckBox = itemView.findViewById(R.id.task_checkbox)
@@ -40,6 +44,7 @@ class TaskDelegateAdapter(private val onTaskComplete: (TaskItem) -> Unit) : View
                     taskText.paintFlags = 0
                 }
             }
+            taskText.setOnClickListener { onTaskEditStart(taskItem!!) }
         }
 
         fun bind(task: TaskItem) {

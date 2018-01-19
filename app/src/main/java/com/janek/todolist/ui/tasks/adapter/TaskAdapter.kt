@@ -1,6 +1,7 @@
 package com.janek.todolist.ui.tasks.adapter
 
 import android.support.v4.util.SparseArrayCompat
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.janek.todolist.commons.adapter.AdapterConstants
@@ -8,8 +9,12 @@ import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
 import com.janek.todolist.commons.models.TaskItem
 
-class TaskAdapter(onTaskAdd: (TaskItem) -> Unit,
-                  onTaskComplete: (TaskItem) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TaskAdapter(
+        onTaskAdd: (TaskItem) -> Unit,
+        onTaskComplete: (TaskItem) -> Unit,
+        onTaskEditStart: (TaskItem) -> Unit,
+        onTaskEditEnd: (TaskItem, String) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
@@ -19,7 +24,8 @@ class TaskAdapter(onTaskAdd: (TaskItem) -> Unit,
 
     init {
         delegateAdapters.put(AdapterConstants.NEW, NewTaskDelegateAdapter(onTaskAdd))
-        delegateAdapters.put(AdapterConstants.TASK, TaskDelegateAdapter(onTaskComplete))
+        delegateAdapters.put(AdapterConstants.TASK, TaskDelegateAdapter(onTaskComplete, onTaskEditStart))
+        delegateAdapters.put(AdapterConstants.EDIT, EditTaskDelegateAdapter(onTaskEditEnd))
         items = ArrayList()
         items.add(newTask)
     }
@@ -37,10 +43,10 @@ class TaskAdapter(onTaskAdd: (TaskItem) -> Unit,
     override fun getItemViewType(position: Int): Int = items[position].getViewType()
 
     fun setTasks(newTasks: List<ViewType>) {
+        val diff = DiffUtil.calculateDiff(TaskDiffer(items, newTasks))
         items.clear()
         items.addAll(newTasks)
         items.add(newTask)
-        // TODO add better way of updating data set - diffUtil
-        notifyDataSetChanged()
+        diff.dispatchUpdatesTo(this)
     }
 }
