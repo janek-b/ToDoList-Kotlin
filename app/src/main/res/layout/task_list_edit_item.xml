@@ -4,16 +4,19 @@
     android:layout_height="48dp">
 
     <CheckBox
-        android:id="@+id/task_checkbox"
+        android:id="@+id/task_edit_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:checked="false" />
 
-    <TextView
-        android:id="@+id/task_text"
+    <EditText
+        android:id="@+id/task_edit_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TextView" />
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        android:text="task" />
 
 </LinearLayout>
