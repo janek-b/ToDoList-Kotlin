@@ -1,5 +1,6 @@
 package com.janek.todolist.ui.tasks
 
+import android.util.Log
 import com.janek.todolist.commons.models.TaskItem
 
 /**
@@ -19,5 +20,10 @@ class TasksPresenter(private val view: TasksView) {
     fun addTask(task: TaskItem) {
         tasks.add(task)
         view.render(tasks)
+    }
+
+    fun completeTask(task: TaskItem) {
+        val taskIndex = tasks.indexOf(task)
+        tasks[taskIndex].done = !task.done
     }
 }
