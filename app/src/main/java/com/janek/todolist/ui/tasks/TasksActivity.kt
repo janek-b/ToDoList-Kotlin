@@ -13,9 +13,10 @@ class TasksActivity : AppCompatActivity(), TasksView {
 
     private var presenter = TasksPresenter(this)
 
-    private val taskAdapter = TaskAdapter({ task ->
-        presenter.addTask(task)
-    })
+    private val taskAdapter = TaskAdapter(
+            { task -> presenter.addTask(task) },
+            { task -> presenter.completeTask(task) }
+            )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
