@@ -10,11 +10,7 @@ import com.janek.todolist.commons.extensions.inflate
 
 import kotlinx.android.synthetic.main.task_list_new_item.view.*
 
-class NewTaskDelegateAdapter(val listener: onTaskAddedListener) : ViewTypeDelegateAdapter {
-
-    interface onTaskAddedListener {
-        fun onTaskAdd(text: String)
-    }
+class NewTaskDelegateAdapter(private val onTaskAdd: (String) -> Unit) : ViewTypeDelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         val viewHolder = NewTaskViewHolder(parent)
@@ -23,20 +19,14 @@ class NewTaskDelegateAdapter(val listener: onTaskAddedListener) : ViewTypeDelega
             task_text_input.setOnEditorActionListener { _, action, _ ->
                 when(action) {
                     EditorInfo.IME_ACTION_DONE -> {
-                        listener.onTaskAdd(task_text_input.text.toString())
+                        onTaskAdd(task_text_input.text.toString())
                         task_text_input.text.clear()
                         true
                     }
                     else -> false
                 }
             }
-
-            task_text_input.setOnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus) {
-                    listener.onTaskAdd(task_text_input.text.toString())
-                    task_text_input.text.clear()
-                }
-            }
+            
         }
 
         return viewHolder

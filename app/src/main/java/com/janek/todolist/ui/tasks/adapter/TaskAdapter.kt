@@ -7,7 +7,7 @@ import com.janek.todolist.commons.adapter.AdapterConstants
 import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
 
-class TaskAdapter(private val listener: NewTaskDelegateAdapter.onTaskAddedListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TaskAdapter(onTaskAdd: (String) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
@@ -16,7 +16,7 @@ class TaskAdapter(private val listener: NewTaskDelegateAdapter.onTaskAddedListen
     }
 
     init {
-        delegateAdapters.put(AdapterConstants.NEW, NewTaskDelegateAdapter(listener))
+        delegateAdapters.put(AdapterConstants.NEW, NewTaskDelegateAdapter(onTaskAdd))
         delegateAdapters.put(AdapterConstants.TASK, TaskDelegateAdapter())
         items = ArrayList()
         items.add(newTask)
