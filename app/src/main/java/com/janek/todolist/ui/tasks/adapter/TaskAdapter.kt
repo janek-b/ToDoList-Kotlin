@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import com.janek.todolist.commons.adapter.AdapterConstants
 import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
+import com.janek.todolist.commons.models.TaskItem
 
-class TaskAdapter(onTaskAdd: (String) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TaskAdapter(onTaskAdd: (TaskItem) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()

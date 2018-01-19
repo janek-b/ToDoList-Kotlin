@@ -30,9 +30,8 @@ class TasksActivity : AppCompatActivity(), TasksView {
         presenter.attach()
     }
 
-    override fun render(tasks: List<String>) {
-        val taskView = tasks.map { TaskItem(it) }
-        taskAdapter.setTasks(taskView)
+    override fun render(tasks: List<TaskItem>) {
+        taskAdapter.setTasks(tasks)
     }
 
 }
