@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.TextView
 import com.janek.todolist.R
 import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
@@ -26,23 +27,24 @@ class TaskDelegateAdapter(private val onTaskComplete: (TaskItem) -> Unit) : View
             private val onTaskComplete: (TaskItem) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
 
-        private val checkBox: CheckBox = itemView.findViewById(R.id.task_text)
+        private val checkBox: CheckBox = itemView.findViewById(R.id.task_checkbox)
+        private val taskText: TextView = itemView.findViewById(R.id.task_text)
         private var taskItem: TaskItem? = null
 
         init {
             checkBox.setOnCheckedChangeListener { _, checked ->
                 onTaskComplete(taskItem!!)
                 if (checked) {
-                    checkBox.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    taskText.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
-                    checkBox.paintFlags = 0
+                    taskText.paintFlags = 0
                 }
             }
         }
 
         fun bind(task: TaskItem) {
             taskItem = task
-            checkBox.text = task.text
+            taskText.text = task.text
             checkBox.isChecked = task.done
         }
     }
