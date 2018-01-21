@@ -57,6 +57,9 @@ class EditTaskDelegateAdapter(
             taskItem = task
             checkBox.isChecked = task.done
             taskEditText.setText(task.text)
+            taskEditText.requestFocus()
+            taskEditText.setSelection(task.text.length)
+
         }
     }
 
