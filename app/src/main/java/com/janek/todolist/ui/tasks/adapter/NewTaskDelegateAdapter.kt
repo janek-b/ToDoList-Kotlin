@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView
 import com.janek.todolist.R
 import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
@@ -26,19 +27,21 @@ class NewTaskDelegateAdapter(private val onTaskAdd: (TaskItem) -> Unit) : ViewTy
             private val onTaskAdd: (TaskItem) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
 
-        private val taskInput: EditText = itemView.findViewById(R.id.task_text_input)
+//        private val taskInput: EditText = itemView.findViewById(R.id.task_text_input)
+        private val newTask: TextView = itemView.findViewById(R.id.task_new)
 
         init {
-            taskInput.setOnEditorActionListener { _, action, _ ->
-                when(action) {
-                    EditorInfo.IME_ACTION_DONE -> {
-                        onTaskAdd(TaskItem(taskInput.text.toString()))
-                        taskInput.text.clear()
-                        true
-                    }
-                    else -> false
-                }
-            }
+            newTask.setOnClickListener { onTaskAdd(TaskItem("")) }
+//            taskInput.setOnEditorActionListener { _, action, _ ->
+//                when(action) {
+//                    EditorInfo.IME_ACTION_DONE -> {
+//                        onTaskAdd(TaskItem(taskInput.text.toString()))
+//                        taskInput.text.clear()
+//                        true
+//                    }
+//                    else -> false
+//                }
+//            }
         }
 
     }

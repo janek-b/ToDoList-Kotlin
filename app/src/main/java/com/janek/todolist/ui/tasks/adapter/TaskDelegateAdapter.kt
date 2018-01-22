@@ -73,6 +73,10 @@ class TaskDelegateAdapter(
             taskItem = task
             taskText.text = task.text
             checkBox.isChecked = task.done
+
+            if (task.text.isEmpty()) {
+                startEdit()
+            }
         }
 
         private fun startEdit() {
