@@ -19,19 +19,13 @@ class TasksPresenter(private val view: TasksView,
         taskItemDao.insertTask(task)
     }
 
-    fun completeTask(task: TaskItem) {
-        task.done = !task.done
+    fun completeTask(task: TaskItem, complete: Boolean) {
+        task.done = complete
         taskItemDao.updateTask(task)
     }
 
-    fun editTaskStart(task: TaskItem) {
-        task.type = AdapterConstants.EDIT
-        taskItemDao.updateTask(task)
-    }
-
-    fun editTaskEnd(task: TaskItem, newText: String) {
+    fun editTask(task: TaskItem, newText: String) {
         task.text = newText
-        task.type = AdapterConstants.TASK
         taskItemDao.updateTask(task)
     }
 }

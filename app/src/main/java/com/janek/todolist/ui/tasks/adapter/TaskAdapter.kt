@@ -11,9 +11,8 @@ import com.janek.todolist.commons.models.TaskItem
 
 class TaskAdapter(
         onTaskAdd: (TaskItem) -> Unit,
-        onTaskComplete: (TaskItem) -> Unit,
-        onTaskEditStart: (TaskItem) -> Unit,
-        onTaskEditEnd: (TaskItem, String) -> Unit
+        onTaskComplete: (TaskItem, Boolean) -> Unit,
+        onTaskEdit: (TaskItem, String) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ViewType>
@@ -24,8 +23,7 @@ class TaskAdapter(
 
     init {
         delegateAdapters.put(AdapterConstants.NEW, NewTaskDelegateAdapter(onTaskAdd))
-        delegateAdapters.put(AdapterConstants.TASK, TaskDelegateAdapter(onTaskComplete, onTaskEditStart))
-        delegateAdapters.put(AdapterConstants.EDIT, EditTaskDelegateAdapter(onTaskEditEnd))
+        delegateAdapters.put(AdapterConstants.TASK, TaskDelegateAdapter(onTaskComplete, onTaskEdit))
         items = ArrayList()
         items.add(newTask)
     }
