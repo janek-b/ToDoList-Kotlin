@@ -1,6 +1,5 @@
 package com.janek.todolist.ui.tasks
 
-import com.janek.todolist.commons.adapter.AdapterConstants
 import com.janek.todolist.commons.db.TaskItemDao
 import com.janek.todolist.commons.models.TaskItem
 import io.reactivex.android.schedulers.AndroidSchedulers

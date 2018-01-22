@@ -35,13 +35,12 @@ class TaskDiffer(
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
 
-        return if (oldItem.getViewType() == AdapterConstants.NEW &&
+        if (oldItem.getViewType() == AdapterConstants.NEW &&
                 newItem.getViewType() == AdapterConstants.NEW) {
-            true
-        } else {
-            (oldItem as TaskItem).text == (newItem as TaskItem).text &&
-                    (oldItem as TaskItem).done == (newItem as TaskItem).done
+            return true
         }
+        return (oldItem as TaskItem).text == (newItem as TaskItem).text &&
+                (oldItem as TaskItem).done == (newItem as TaskItem).done
 
 //        return (oldList[oldItemPosition] as TaskItem) == (newList[newItemPosition] as TaskItem)
     }

@@ -26,7 +26,7 @@ class TasksActivity : AppCompatActivity(), TasksView {
         taskAdapter = TaskAdapter(
                 { task -> presenter.addTask(task) },
                 { task, complete -> presenter.completeTask(task, complete) },
-                { task, text -> presenter.editTask(task, text)}
+                { task, text -> presenter.editTask(task, text) }
         )
 
         task_list.apply {

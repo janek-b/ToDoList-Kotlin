@@ -41,10 +41,9 @@ class TaskAdapter(
     override fun getItemViewType(position: Int): Int = items[position].getViewType()
 
     fun setTasks(newTasks: List<ViewType>) {
-        val diff = DiffUtil.calculateDiff(TaskDiffer(items, newTasks))
-        items.clear()
-        items.addAll(newTasks)
-        items.add(newTask)
+        val newItems = arrayListOf(*newTasks.toTypedArray(), newTask)
+        val diff = DiffUtil.calculateDiff(TaskDiffer(items, newItems))
+        items = newItems
         diff.dispatchUpdatesTo(this)
     }
 }
