@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import com.janek.todolist.R
 import com.janek.todolist.commons.adapter.ViewType
@@ -27,10 +28,12 @@ class NewTaskDelegateAdapter(private val onTaskAdd: (TaskItem) -> Unit) : ViewTy
             private val onTaskAdd: (TaskItem) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
 
-        private val newTask: TextView = itemView.findViewById(R.id.task_new)
+        private val newTaskText: TextView = itemView.findViewById(R.id.task_new_text)
+        private val newTaskImage: ImageView = itemView.findViewById(R.id.task_new_image)
 
         init {
-            newTask.setOnClickListener { onTaskAdd(TaskItem("")) }
+            newTaskText.setOnClickListener { onTaskAdd(TaskItem("")) }
+            newTaskImage.setOnClickListener { onTaskAdd(TaskItem("")) }
         }
 
     }
