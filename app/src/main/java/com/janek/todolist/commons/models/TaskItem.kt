@@ -8,10 +8,9 @@ import com.janek.todolist.commons.adapter.ViewType
 
 @Entity(tableName = "task_items")
 data class TaskItem(@ColumnInfo(name = "task_text") var text: String,
-                    @ColumnInfo(name = "task_done") var done: Boolean = false,
-                    @ColumnInfo(name = "task_type") var type: Int = AdapterConstants.TASK) : ViewType {
+                    @ColumnInfo(name = "task_done") var done: Boolean = false) : ViewType {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true) var id: Long = 0
 
-    override fun getViewType(): Int = type
+    override fun getViewType(): Int = AdapterConstants.TASK
 }
