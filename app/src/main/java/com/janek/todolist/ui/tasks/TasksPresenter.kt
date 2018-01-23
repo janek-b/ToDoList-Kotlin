@@ -27,4 +27,8 @@ class TasksPresenter(private val view: TasksView,
         task.text = newText
         taskItemDao.updateTask(task)
     }
+
+    fun deleteTask(task: TaskItem) {
+        taskItemDao.deleteTask(task)
+    }
 }

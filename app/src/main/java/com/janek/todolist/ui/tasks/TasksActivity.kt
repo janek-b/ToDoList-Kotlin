@@ -26,12 +26,13 @@ class TasksActivity : AppCompatActivity(), TasksView {
         taskAdapter = TaskAdapter(
                 { task -> presenter.addTask(task) },
                 { task, complete -> presenter.completeTask(task, complete) },
-                { task, text -> presenter.editTask(task, text) }
+                { task, text -> presenter.editTask(task, text) },
+                { task -> presenter.deleteTask(task) }
         )
 
         task_list.apply {
-            setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
             adapter = taskAdapter
         }
 
