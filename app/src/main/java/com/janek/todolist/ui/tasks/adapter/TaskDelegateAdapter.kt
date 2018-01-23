@@ -3,6 +3,7 @@ package com.janek.todolist.ui.tasks.adapter
 import android.content.Context
 import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
+import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -59,6 +60,9 @@ class TaskDelegateAdapter(
 
             taskDelete.setOnClickListener { onTaskDelete(taskItem!!) }
 
+            taskEdit.imeOptions = EditorInfo.IME_ACTION_DONE
+            taskEdit.setRawInputType(InputType.TYPE_CLASS_TEXT)
+
             taskEdit.setOnEditorActionListener { _, action, _ ->
                 when(action) {
                     EditorInfo.IME_ACTION_DONE -> {
@@ -69,7 +73,7 @@ class TaskDelegateAdapter(
                 }
             }
 
-            taskEdit.setOnFocusChangeListener { view, hasFocus ->
+            taskEdit.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     endEdit()
                 }
