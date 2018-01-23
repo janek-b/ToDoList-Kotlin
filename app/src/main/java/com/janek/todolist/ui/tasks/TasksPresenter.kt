@@ -14,8 +14,8 @@ class TasksPresenter(private val view: TasksView,
                 .subscribe { view.render(it) }
     }
 
-    fun addTask(task: TaskItem) {
-        taskItemDao.insertTask(task)
+    fun addTask() {
+        taskItemDao.insertTask(TaskItem(""))
     }
 
     fun completeTask(task: TaskItem, complete: Boolean) {
