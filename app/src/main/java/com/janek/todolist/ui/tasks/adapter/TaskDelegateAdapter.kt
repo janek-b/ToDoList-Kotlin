@@ -48,12 +48,7 @@ class TaskDelegateAdapter(
         init {
             checkBox.setOnCheckedChangeListener { _, checked ->
                 onTaskComplete(taskItem!!, checked)
-
-                if (checked && checked == taskItem?.done) {
-                    taskText.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                } else {
-                    taskText.paintFlags = 0
-                }
+                taskText.paintFlags = taskText.paintFlags xor Paint.STRIKE_THRU_TEXT_FLAG
             }
 
             taskText.setOnClickListener { startEdit() }
