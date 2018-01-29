@@ -12,9 +12,9 @@ class TasksPresenter(private val view: TasksView,
     fun attach() {
         disposable.add(
                 taskItemDao.getAllTasks()
-                    .toObservable()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { view.render(it) }
+                        .toObservable()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { view.render(it) }
         )
 
         disposable.add(
@@ -34,21 +34,21 @@ class TasksPresenter(private val view: TasksView,
         disposable.clear()
     }
 
-    fun addTask() {
+    private fun addTask() {
         taskItemDao.insertTask(TaskItem(""))
     }
 
-    fun completeTask(task: TaskItem, complete: Boolean) {
+    private fun completeTask(task: TaskItem, complete: Boolean) {
         task.done = complete
         taskItemDao.updateTask(task)
     }
 
-    fun editTask(task: TaskItem, newText: String) {
+    private fun editTask(task: TaskItem, newText: String) {
         task.text = newText
         taskItemDao.updateTask(task)
     }
 
-    fun deleteTask(task: TaskItem) {
+    private fun deleteTask(task: TaskItem) {
         taskItemDao.deleteTask(task)
     }
 }
