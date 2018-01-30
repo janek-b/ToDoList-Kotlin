@@ -27,17 +27,8 @@ class TasksActivity : AppCompatActivity(), TasksView {
                 Room.databaseBuilder(applicationContext, AppDatabase::class.java, "todo-list").allowMainThreadQueries().build().taskItemDao())
 
         taskAdapter = TaskAdapter(
-                { actions.onNext(TaskViewAction.Add) },
-                { task, complete -> actions.onNext(TaskViewAction.Complete(task, complete)) },
-                { task, text -> actions.onNext(TaskViewAction.Edit(task, text)) },
-                { task -> actions.onNext(TaskViewAction.Delete(task)) }
+                { action -> actions.onNext(action)}
         )
-//        taskAdapter = TaskAdapter(
-//                { presenter.addTask() },
-//                { task, complete -> presenter.completeTask(task, complete) },
-//                { task, text -> presenter.editTask(task, text) },
-//                { task -> presenter.deleteTask(task) }
-//        )
 
         task_list.apply {
             layoutManager = LinearLayoutManager(context)

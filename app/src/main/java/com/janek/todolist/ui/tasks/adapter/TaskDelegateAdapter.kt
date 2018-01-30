@@ -16,15 +16,12 @@ import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
 import com.janek.todolist.commons.extensions.inflate
 import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.ui.tasks.TaskViewAction
 
-class TaskDelegateAdapter(
-        private val onTaskComplete: (TaskItem, Boolean) -> Unit,
-        private val onTaskEdit: (TaskItem, String) -> Unit,
-        private val onTaskDelete: (TaskItem) -> Unit
-) : ViewTypeDelegateAdapter {
+class TaskDelegateAdapter(private val action: (TaskViewAction) -> Unit) : ViewTypeDelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return TaskViewHolder(parent.inflate(R.layout.task_list_item), onTaskComplete, onTaskEdit, onTaskDelete)
+        return TaskViewHolder(parent.inflate(R.layout.task_list_item), action)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
@@ -33,9 +30,7 @@ class TaskDelegateAdapter(
 
     class TaskViewHolder(
             itemView: View,
-            private val onTaskComplete: (TaskItem, Boolean) -> Unit,
-            private val onTaskEdit: (TaskItem, String) -> Unit,
-            private val onTaskDelete: (TaskItem) -> Unit
+            private val action: (TaskViewAction) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
 
         private val checkBox: CheckBox = itemView.findViewById(R.id.task_checkbox)
@@ -45,11 +40,13 @@ class TaskDelegateAdapter(
 
         init {
             checkBox.setOnCheckedChangeListener { _, checked ->
-                onTaskComplete(taskItem!!, checked)
+                action(TaskViewAction.Complete(taskItem!!, checked))
                 taskEdit.paintFlags = taskEdit.paintFlags xor Paint.STRIKE_THRU_TEXT_FLAG
             }
 
-            taskDelete.setOnClickListener { onTaskDelete(taskItem!!) }
+            taskDelete.setOnClickListener {
+                action(TaskViewAction.Delete(taskItem!!))
+            }
 
 //            taskEdit.imeOptions = EditorInfo.IME_ACTION_DONE
             taskEdit.setRawInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
@@ -86,7 +83,7 @@ class TaskDelegateAdapter(
 
         private fun updateTask() {
             val updatedText = taskEdit.text.toString()
-            onTaskEdit(taskItem!!, updatedText)
+            action(TaskViewAction.Edit(taskItem!!, updatedText))
             hideKeyboard()
         }
 
