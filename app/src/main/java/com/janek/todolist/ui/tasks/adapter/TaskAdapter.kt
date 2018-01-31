@@ -26,7 +26,7 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
         delegateAdapters.put(AdapterConstants.NEW, NewTaskDelegateAdapter(action))
         delegateAdapters.put(AdapterConstants.TASK, TaskDelegateAdapter(action))
         delegateAdapters.put(AdapterConstants.CHECKEDHEADER, CheckedTaskHeaderDelegateAdapter({
-            toggleChecked()
+            expand -> toggleExpand(expand)
         }))
         items = emptyList()
         renderList = emptyList()
@@ -52,7 +52,7 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
     private fun render(tasks: List<TaskItem>) {
         val tasksByStatus = tasks.groupBy { it.done }
         val checkedCount = tasksByStatus[true]?.count() ?: 0
-        val checkedHeader = if (checkedCount > 0) CheckedTaskHeader(checkedCount) else null
+        val checkedHeader = if (checkedCount > 0) CheckedTaskHeader(checkedCount, checkedExpanded) else null
 
         val newTasks = if (checkedExpanded) tasks else (tasksByStatus[false] ?: emptyList())
 
@@ -62,8 +62,8 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
         diff.dispatchUpdatesTo(this)
     }
 
-    private fun toggleChecked() {
-        checkedExpanded = !checkedExpanded
+    private fun toggleExpand(expand: Boolean) {
+        checkedExpanded = expand
         render(items.filterIsInstance<TaskItem>())
     }
 
