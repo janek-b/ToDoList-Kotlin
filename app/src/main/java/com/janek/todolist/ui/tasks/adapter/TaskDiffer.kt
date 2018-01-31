@@ -1,7 +1,6 @@
 package com.janek.todolist.ui.tasks.adapter
 
 import android.support.v7.util.DiffUtil
-import com.janek.todolist.commons.adapter.AdapterConstants
 import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.models.TaskItem
 
@@ -17,32 +16,22 @@ class TaskDiffer(
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
 
-        if (oldItem.getViewType() == AdapterConstants.NEW &&
-                newItem.getViewType() == AdapterConstants.NEW) {
-            return true
+        return if (oldItem is TaskItem && newItem is TaskItem) {
+            oldItem.id == newItem.id
+        } else {
+            oldItem.getViewType() == newItem.getViewType()
         }
-        if (oldItem.getViewType() == AdapterConstants.TASK &&
-                newItem.getViewType() == AdapterConstants.TASK) {
-            return (oldItem as TaskItem).id == (newItem as TaskItem).id
-        }
-        return oldItem.getViewType() == newItem.getViewType()
-
-//        return oldList[oldItemPosition].getViewType() == newList[newItemPosition].getViewType() &&
-//                (oldList[oldItemPosition] as TaskItem).id == (newList[newItemPosition] as TaskItem).id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
 
-        if (oldItem.getViewType() == AdapterConstants.NEW &&
-                newItem.getViewType() == AdapterConstants.NEW) {
-            return true
+        return if (oldItem is TaskItem && newItem is TaskItem) {
+            oldItem.text == newItem.text && oldItem.done == newItem.done
+        } else {
+            oldItem == newItem
         }
-        return (oldItem as TaskItem).text == (newItem as TaskItem).text &&
-                (oldItem as TaskItem).done == (newItem as TaskItem).done
-
-//        return (oldList[oldItemPosition] as TaskItem) == (newList[newItemPosition] as TaskItem)
     }
 
 }
