@@ -13,7 +13,7 @@ import com.janek.todolist.ui.tasks.TaskViewAction
 
 class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var items: List<ViewType>
+    private var items: List<TaskItem>
     private var renderList: List<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
     private var checkedExpanded = true
@@ -46,17 +46,20 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
 
     fun setTasks(newTasks: List<TaskItem>) {
         items = newTasks
-        render(newTasks)
+        render()
     }
 
-    private fun render(tasks: List<TaskItem>) {
-        val tasksByStatus = tasks.groupBy { it.done }
-        val checkedCount = tasksByStatus[true]?.count() ?: 0
-        val checkedHeader = if (checkedCount > 0) CheckedTaskHeader(checkedCount, checkedExpanded) else null
+    private fun render() {
+        val pendingItems = items.filter { !it.done }
+        val checkedHeader = if (items.size > pendingItems.size) {
+            CheckedTaskHeader(items.size - pendingItems.size, checkedExpanded)
+        } else {
+            null
+        }
 
-        val newTasks = if (checkedExpanded) tasks else (tasksByStatus[false] ?: emptyList())
+        val itemsToRender = if (checkedExpanded) items else pendingItems
 
-        val newRenderList = listOfNotNull(*newTasks.toTypedArray(), newTask, checkedHeader).sortedWith(Compare)
+        val newRenderList = listOfNotNull(*itemsToRender.toTypedArray(), newTask, checkedHeader).sortedWith(Compare)
         val diff = DiffUtil.calculateDiff(TaskDiffer(renderList, newRenderList))
         renderList = newRenderList
         diff.dispatchUpdatesTo(this)
@@ -64,7 +67,7 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
 
     private fun toggleExpand(expand: Boolean) {
         checkedExpanded = expand
-        render(items.filterIsInstance<TaskItem>())
+        render()
     }
 
     object Compare : Comparator<ViewType> {
