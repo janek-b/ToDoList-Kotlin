@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">To Do List</string>
+    <string name="task_item_text">Task</string>
+    <string name="delete_task_button_description">Delete Task Button</string>
+    <string name="add_task_image">Add Task Image</string>
+    <string name="new_task_text">New Task</string>
+    <string name="checked_item_count">%d Checked item</string>
 </resources>

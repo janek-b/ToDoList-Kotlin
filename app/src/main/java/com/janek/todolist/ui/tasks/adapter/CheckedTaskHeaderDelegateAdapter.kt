@@ -24,6 +24,7 @@ class CheckedTaskHeaderDelegateAdapter(private val toggleExpand: (Boolean) -> Un
     class CheckedHeaderViewHolder(itemView: View, private val toggleExpand: (Boolean) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val headerTextView: TextView = itemView.findViewById(R.id.checked_items_header)
         private val expandToggleButton: ToggleButton = itemView.findViewById(R.id.expandToggle)
+        private val headerStringResource = itemView.context.getString(R.string.checked_item_count)
 
         init {
             expandToggleButton.setOnCheckedChangeListener { _, checked ->
@@ -33,7 +34,7 @@ class CheckedTaskHeaderDelegateAdapter(private val toggleExpand: (Boolean) -> Un
 
         fun bind(header: CheckedTaskHeader) {
             expandToggleButton.isChecked = header.expanded
-            headerTextView.text = "${header.taskCount} Checked items"
+            headerTextView.text = String.format(headerStringResource, header.taskCount)
         }
     }
 }

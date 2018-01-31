@@ -22,7 +22,7 @@
         android:background="@android:color/transparent"
         android:imeOptions="actionDone"
         android:inputType="textMultiLine"
-        android:text="Task"
+        android:text="@string/task_item_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/task_checkbox"
         app:layout_constraintEnd_toStartOf="@id/task_delete"
         app:layout_constraintStart_toStartOf="@id/left_margin" />
@@ -37,7 +37,8 @@
         android:tint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_cancel_black_24dp" />
+        app:srcCompat="@drawable/ic_cancel_black_24dp"
+        android:contentDescription="@string/delete_task_button_description" />
 
     <android.support.constraint.Guideline
         android:id="@+id/left_margin"
