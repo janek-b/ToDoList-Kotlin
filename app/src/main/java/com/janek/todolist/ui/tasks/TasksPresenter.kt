@@ -6,12 +6,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 class TasksPresenter(private val view: TasksView,
+                     private val listId: Long,
                      private val taskItemDao: TaskItemDao) {
     private val disposable = CompositeDisposable()
 
     fun attach() {
         disposable.add(
-                taskItemDao.getAllTasks()
+                taskItemDao.getAllTasksInList(listId)
                         .toObservable()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { view.render(it) }
@@ -35,7 +36,7 @@ class TasksPresenter(private val view: TasksView,
     }
 
     private fun addTask() {
-        taskItemDao.insertTask(TaskItem(""))
+        taskItemDao.insertTask(TaskItem("", listId))
     }
 
     private fun completeTask(task: TaskItem, complete: Boolean) {

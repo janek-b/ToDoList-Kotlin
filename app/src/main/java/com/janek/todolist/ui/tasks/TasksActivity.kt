@@ -1,6 +1,8 @@
 package com.janek.todolist.ui.tasks
 
 import android.arch.persistence.room.Room
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -15,6 +17,14 @@ import kotlinx.android.synthetic.main.activity_tasks.*
 
 class TasksActivity : AppCompatActivity(), TasksView {
 
+    companion object {
+        @JvmStatic fun createIntent(context: Context, listId: Long) : Intent {
+            val intent = Intent(context, TasksActivity::class.java)
+            intent.putExtra("listId", listId)
+            return intent
+        }
+    }
+
     private lateinit var presenter: TasksPresenter
     private lateinit var taskAdapter: TaskAdapter
     private val actions: PublishSubject<TaskViewAction> = PublishSubject.create()
@@ -23,7 +33,10 @@ class TasksActivity : AppCompatActivity(), TasksView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tasks)
 
+        val listId = intent.getLongExtra("listId", 0)
+
         presenter = TasksPresenter(this,
+                listId,
                 Room.databaseBuilder(applicationContext, AppDatabase::class.java, "todo-list").allowMainThreadQueries().build().taskItemDao())
 
         taskAdapter = TaskAdapter(
