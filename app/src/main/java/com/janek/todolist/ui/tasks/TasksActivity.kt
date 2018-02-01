@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.janek.todolist.R
-import com.janek.todolist.commons.db.AppDatabase
-import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.data.db.AppDatabase
+import com.janek.todolist.data.models.TaskItem
 import com.janek.todolist.ui.tasks.adapter.TaskAdapter
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject

@@ -1,8 +1,8 @@
-package com.janek.todolist.commons.db
+package com.janek.todolist.data.db
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
-import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.data.models.TaskItem
 import io.reactivex.Flowable
 
 @Dao interface TaskItemDao {

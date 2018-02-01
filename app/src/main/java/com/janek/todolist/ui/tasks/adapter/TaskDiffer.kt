@@ -2,7 +2,7 @@ package com.janek.todolist.ui.tasks.adapter
 
 import android.support.v7.util.DiffUtil
 import com.janek.todolist.commons.adapter.ViewType
-import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.data.models.TaskItem
 
 class TaskDiffer(
         private val oldList: List<ViewType>,

@@ -8,7 +8,7 @@ import com.janek.todolist.commons.adapter.AdapterConstants
 import com.janek.todolist.commons.adapter.CheckedTaskHeader
 import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
-import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.data.models.TaskItem
 import com.janek.todolist.ui.tasks.TaskViewAction
 
 class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -1,6 +1,6 @@
 package com.janek.todolist.ui.tasks
 
-import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.data.models.TaskItem
 
 /**
  * Created by janek on 1/28/18.

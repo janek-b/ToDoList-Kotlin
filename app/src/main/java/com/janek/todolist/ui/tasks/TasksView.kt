@@ -1,6 +1,6 @@
 package com.janek.todolist.ui.tasks
 
-import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.data.models.TaskItem
 import io.reactivex.Observable
 
 interface TasksView {

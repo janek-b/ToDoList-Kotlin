@@ -1,7 +1,7 @@
 package com.janek.todolist.ui.tasks
 
-import com.janek.todolist.commons.db.TaskItemDao
-import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.data.db.TaskItemDao
+import com.janek.todolist.data.models.TaskItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 

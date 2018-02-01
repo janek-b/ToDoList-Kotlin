@@ -15,7 +15,7 @@ import com.janek.todolist.R
 import com.janek.todolist.commons.adapter.ViewType
 import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
 import com.janek.todolist.commons.extensions.inflate
-import com.janek.todolist.commons.models.TaskItem
+import com.janek.todolist.data.models.TaskItem
 import com.janek.todolist.ui.tasks.TaskViewAction
 
 class TaskDelegateAdapter(private val action: (TaskViewAction) -> Unit) : ViewTypeDelegateAdapter {

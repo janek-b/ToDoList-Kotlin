@@ -1,4 +1,4 @@
-package com.janek.todolist.commons.models
+package com.janek.todolist.data.models
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
