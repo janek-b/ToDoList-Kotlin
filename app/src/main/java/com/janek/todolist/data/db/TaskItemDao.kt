@@ -12,6 +12,9 @@ import io.reactivex.Flowable
     @Query("select * from task_items where id = :id")
     fun findTaskById(id: Long): TaskItem
 
+    @Query("select * from task_items where list_id = :listId")
+    fun getAllTasksInList(listId: Long): Flowable<List<TaskItem>>
+
     @Insert(onConflict = REPLACE)
     fun insertTask(task: TaskItem)
 
