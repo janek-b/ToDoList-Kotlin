@@ -7,5 +7,5 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(tableName = "task_list")
 data class TaskList(@ColumnInfo(name = "list_name") var name: String) {
     @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true) val id: Long = 0
+    @PrimaryKey(autoGenerate = true) var id: Long = 0
 }

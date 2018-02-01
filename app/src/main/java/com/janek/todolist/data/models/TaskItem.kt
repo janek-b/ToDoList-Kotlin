@@ -10,13 +10,13 @@ import com.janek.todolist.commons.adapter.ViewType
 @Entity(tableName = "task_items",
         foreignKeys = arrayOf(ForeignKey(entity = TaskList::class,
                 parentColumns = arrayOf("id"),
-                childColumns = arrayOf("listId"),
+                childColumns = arrayOf("list_id"),
                 onDelete = ForeignKey.CASCADE)))
 data class TaskItem(@ColumnInfo(name = "task_text") var text: String,
-                    @ColumnInfo(name = "task_done") var done: Boolean = false,
-                    @ColumnInfo(name = "list_id") val listId: Long) : ViewType {
+                    @ColumnInfo(name = "list_id") var listId: Long,
+                    @ColumnInfo(name = "task_done") var done: Boolean = false) : ViewType {
     @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true) val id: Long = 0
+    @PrimaryKey(autoGenerate = true) var id: Long = 0
 
     override fun getViewType(): Int = AdapterConstants.TASK
 }
