@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.janek.todolist.R
 import com.janek.todolist.data.db.AppDatabase
 import com.janek.todolist.data.models.TaskItem
+import com.janek.todolist.data.models.TaskList
 import com.janek.todolist.ui.tasks.adapter.TaskAdapter
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -37,8 +38,7 @@ class TasksActivity : AppCompatActivity(), TasksView {
 
         presenter = TasksPresenter(this,
                 listId,
-                Room.databaseBuilder(applicationContext, AppDatabase::class.java, "todo-list").allowMainThreadQueries().build().taskItemDao(),
-                Room.databaseBuilder(applicationContext, AppDatabase::class.java, "todo-list").allowMainThreadQueries().build().taskListDao())
+                Room.databaseBuilder(applicationContext, AppDatabase::class.java, "todo-list").allowMainThreadQueries().build().taskItemDao())
 
         taskAdapter = TaskAdapter(
                 { action -> actions.onNext(action)}
@@ -58,8 +58,8 @@ class TasksActivity : AppCompatActivity(), TasksView {
         presenter.detach()
     }
 
-    override fun render(listName: String, tasks: List<TaskItem>) {
-        taskAdapter.setTasks(listName, tasks)
+    override fun render(list: TaskList, tasks: List<TaskItem>) {
+        taskAdapter.setTasks(list, tasks)
     }
 
     override fun viewActions(): Observable<TaskViewAction> {

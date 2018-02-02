@@ -1,25 +1,22 @@
 package com.janek.todolist.ui.tasks
 
-import android.util.Log
 import com.janek.todolist.data.db.TaskItemDao
-import com.janek.todolist.data.db.TaskListDao
 import com.janek.todolist.data.models.TaskItem
+import com.janek.todolist.data.models.TaskList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 class TasksPresenter(private val view: TasksView,
                      private val listId: Long,
-                     private val taskItemDao: TaskItemDao,
-                     private val taskListDao: TaskListDao) {
+                     private val taskItemDao: TaskItemDao) {
     private val disposable = CompositeDisposable()
 
     fun attach() {
-        val taskList = taskListDao.getTaskList(listId)
         disposable.add(
-                taskItemDao.getAllTasksInList(listId)
+                taskItemDao.getListAndTasks(listId)
                         .toObservable()
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { view.render(taskList.name, it) }
+                        .subscribe { view.render(it.list, it.tasks)}
         )
 
         disposable.add(
@@ -30,6 +27,7 @@ class TasksPresenter(private val view: TasksView,
                                 is TaskViewAction.Complete -> completeTask(it.task, it.complete)
                                 is TaskViewAction.Edit -> editTask(it.task, it.text)
                                 is TaskViewAction.Delete -> deleteTask(it.task)
+                                is TaskViewAction.ListEdit -> editListName(it.list, it.text)
                             }
                         }
         )
@@ -55,5 +53,10 @@ class TasksPresenter(private val view: TasksView,
 
     private fun deleteTask(task: TaskItem) {
         taskItemDao.deleteTask(task)
+    }
+
+    private fun editListName(list: TaskList, newName: String) {
+        list.name = newName
+        taskItemDao.updateList(list)
     }
 }

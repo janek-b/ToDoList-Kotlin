@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.janek.todolist.commons.adapter.*
 import com.janek.todolist.data.models.TaskItem
+import com.janek.todolist.data.models.TaskList
 import com.janek.todolist.ui.tasks.TaskViewAction
 
 class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -20,6 +21,7 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
     }
 
     private var listHeader = TaskListHeader()
+    private var list: TaskList? = null
 
     init {
         delegateAdapters.put(AdapterConstants.NEW, NewTaskDelegateAdapter(action))
@@ -27,7 +29,9 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
         delegateAdapters.put(AdapterConstants.CHECKEDHEADER, CheckedTaskHeaderDelegateAdapter({
             expand -> toggleExpand(expand)
         }))
-        delegateAdapters.put(AdapterConstants.LISTHEADER, ListHeaderDelegateAdapter())
+        delegateAdapters.put(AdapterConstants.LISTHEADER, ListHeaderDelegateAdapter({
+            newText -> action(TaskViewAction.ListEdit(list!!, newText))
+        }))
         items = emptyList()
         renderList = emptyList()
     }
@@ -44,10 +48,11 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
 
     override fun getItemViewType(position: Int): Int = renderList[position].getViewType()
 
-    fun setTasks(listName: String, newTasks: List<TaskItem>) {
+    fun setTasks(newList: TaskList, newTasks: List<TaskItem>) {
         items = newTasks
-        if (listName != listHeader.listName) {
-            listHeader = TaskListHeader(listName)
+        list = newList
+        if (newList.name != listHeader.listName) {
+            listHeader = TaskListHeader(newList.name)
         }
         render()
     }
