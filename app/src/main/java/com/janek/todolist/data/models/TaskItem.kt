@@ -7,11 +7,7 @@ import android.arch.persistence.room.PrimaryKey
 import com.janek.todolist.commons.adapter.AdapterConstants
 import com.janek.todolist.commons.adapter.ViewType
 
-@Entity(tableName = "task_items",
-        foreignKeys = arrayOf(ForeignKey(entity = TaskList::class,
-                parentColumns = arrayOf("id"),
-                childColumns = arrayOf("list_id"),
-                onDelete = ForeignKey.CASCADE)))
+@Entity(tableName = "task_items")
 data class TaskItem(@ColumnInfo(name = "task_text") var text: String,
                     @ColumnInfo(name = "list_id") var listId: Long,
                     @ColumnInfo(name = "task_done") var done: Boolean = false) : ViewType {

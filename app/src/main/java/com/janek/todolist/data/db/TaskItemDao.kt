@@ -2,7 +2,9 @@ package com.janek.todolist.data.db
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import com.janek.todolist.data.models.ListAndTasks
 import com.janek.todolist.data.models.TaskItem
+import com.janek.todolist.data.models.TaskList
 import io.reactivex.Flowable
 
 @Dao interface TaskItemDao {
@@ -23,4 +25,25 @@ import io.reactivex.Flowable
 
     @Delete
     fun deleteTask(task: TaskItem)
+
+
+    @Query("select * from task_list")
+    fun getAllLists(): Flowable<List<TaskList>>
+
+    @Query("select * from task_list where id = :id")
+    fun getList(id: Long): TaskList
+
+    @Transaction
+    @Query("SELECT * FROM task_list WHERE id = :id")
+    fun getListAndTasks(id: Long): Flowable<ListAndTasks>
+
+    @Insert(onConflict = REPLACE)
+    fun insertList(list: TaskList)
+
+    @Update(onConflict = REPLACE)
+    fun updateList(list: TaskList)
+
+    @Delete
+    fun deleteList(list: TaskList)
+
 }
