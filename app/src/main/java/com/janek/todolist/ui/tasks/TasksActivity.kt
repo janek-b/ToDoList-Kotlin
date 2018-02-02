@@ -37,7 +37,8 @@ class TasksActivity : AppCompatActivity(), TasksView {
 
         presenter = TasksPresenter(this,
                 listId,
-                Room.databaseBuilder(applicationContext, AppDatabase::class.java, "todo-list").allowMainThreadQueries().build().taskItemDao())
+                Room.databaseBuilder(applicationContext, AppDatabase::class.java, "todo-list").allowMainThreadQueries().build().taskItemDao(),
+                Room.databaseBuilder(applicationContext, AppDatabase::class.java, "todo-list").allowMainThreadQueries().build().taskListDao())
 
         taskAdapter = TaskAdapter(
                 { action -> actions.onNext(action)}
@@ -57,8 +58,8 @@ class TasksActivity : AppCompatActivity(), TasksView {
         presenter.detach()
     }
 
-    override fun render(tasks: List<TaskItem>) {
-        taskAdapter.setTasks(tasks)
+    override fun render(listName: String, tasks: List<TaskItem>) {
+        taskAdapter.setTasks(listName, tasks)
     }
 
     override fun viewActions(): Observable<TaskViewAction> {

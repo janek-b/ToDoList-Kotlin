@@ -4,10 +4,7 @@ import android.support.v4.util.SparseArrayCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.janek.todolist.commons.adapter.AdapterConstants
-import com.janek.todolist.commons.adapter.CheckedTaskHeader
-import com.janek.todolist.commons.adapter.ViewType
-import com.janek.todolist.commons.adapter.ViewTypeDelegateAdapter
+import com.janek.todolist.commons.adapter.*
 import com.janek.todolist.data.models.TaskItem
 import com.janek.todolist.ui.tasks.TaskViewAction
 
@@ -22,12 +19,15 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
         override fun getViewType(): Int = AdapterConstants.NEW
     }
 
+    private var listHeader = TaskListHeader()
+
     init {
         delegateAdapters.put(AdapterConstants.NEW, NewTaskDelegateAdapter(action))
         delegateAdapters.put(AdapterConstants.TASK, TaskDelegateAdapter(action))
         delegateAdapters.put(AdapterConstants.CHECKEDHEADER, CheckedTaskHeaderDelegateAdapter({
             expand -> toggleExpand(expand)
         }))
+        delegateAdapters.put(AdapterConstants.LISTHEADER, ListHeaderDelegateAdapter())
         items = emptyList()
         renderList = emptyList()
     }
@@ -44,8 +44,11 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
 
     override fun getItemViewType(position: Int): Int = renderList[position].getViewType()
 
-    fun setTasks(newTasks: List<TaskItem>) {
+    fun setTasks(listName: String, newTasks: List<TaskItem>) {
         items = newTasks
+        if (listName != listHeader.listName) {
+            listHeader = TaskListHeader(listName)
+        }
         render()
     }
 
@@ -59,7 +62,7 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
 
         val itemsToRender = if (checkedExpanded) items else pendingItems
 
-        val newRenderList = listOfNotNull(*itemsToRender.toTypedArray(), newTask, checkedHeader).sortedWith(Compare)
+        val newRenderList = listOfNotNull(*itemsToRender.toTypedArray(), newTask, checkedHeader, listHeader).sortedWith(Compare)
         val diff = DiffUtil.calculateDiff(TaskDiffer(renderList, newRenderList))
         renderList = newRenderList
         diff.dispatchUpdatesTo(this)
@@ -72,7 +75,11 @@ class TaskAdapter(action: (TaskViewAction) -> Unit) : RecyclerView.Adapter<Recyc
 
     object Compare : Comparator<ViewType> {
         override fun compare(a: ViewType, b: ViewType): Int {
-            if (a is TaskItem && b is TaskItem) {
+            if (a is TaskListHeader) {
+                return -1
+            } else if (b is TaskListHeader) {
+                return 1
+            } else if (a is TaskItem && b is TaskItem) {
                 return if (!a.done && b.done) {
                     -1
                 } else if (a.done && !b.done) {

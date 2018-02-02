@@ -1,21 +1,25 @@
 package com.janek.todolist.ui.tasks
 
+import android.util.Log
 import com.janek.todolist.data.db.TaskItemDao
+import com.janek.todolist.data.db.TaskListDao
 import com.janek.todolist.data.models.TaskItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 class TasksPresenter(private val view: TasksView,
                      private val listId: Long,
-                     private val taskItemDao: TaskItemDao) {
+                     private val taskItemDao: TaskItemDao,
+                     private val taskListDao: TaskListDao) {
     private val disposable = CompositeDisposable()
 
     fun attach() {
+        val taskList = taskListDao.getTaskList(listId)
         disposable.add(
                 taskItemDao.getAllTasksInList(listId)
                         .toObservable()
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { view.render(it) }
+                        .subscribe { view.render(taskList.name, it) }
         )
 
         disposable.add(
