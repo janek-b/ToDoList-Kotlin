@@ -14,7 +14,7 @@ import com.janek.todolist.ui.tasks.TaskViewAction
 class NewTaskDelegateAdapter(private val action: (TaskViewAction) -> Unit) : ViewTypeDelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return NewTaskViewHolder(parent.inflate(R.layout.task_list_new_item), action)
+        return NewTaskViewHolder(parent.inflate(R.layout.tasks_new_item), action)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {

@@ -14,7 +14,7 @@ import com.janek.todolist.commons.extensions.inflate
 class CheckedTaskHeaderDelegateAdapter(private val toggleExpand: (Boolean) -> Unit) : ViewTypeDelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return CheckedHeaderViewHolder(parent.inflate(R.layout.task_list_checked_header), toggleExpand)
+        return CheckedHeaderViewHolder(parent.inflate(R.layout.tasks_checked_header), toggleExpand)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {

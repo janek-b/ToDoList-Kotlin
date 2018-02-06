@@ -16,7 +16,7 @@ class TaskListAdapter(private val openList: (TaskList) -> Unit) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return TaskListViewHolder(parent.inflate(R.layout.task_list), openList)
+        return TaskListViewHolder(parent.inflate(R.layout.task_lists_item), openList)
     }
 
     override fun getItemCount(): Int = items.size

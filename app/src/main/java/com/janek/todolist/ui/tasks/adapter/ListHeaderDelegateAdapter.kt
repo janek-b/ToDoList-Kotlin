@@ -17,7 +17,7 @@ import com.janek.todolist.commons.extensions.inflate
 class ListHeaderDelegateAdapter(private val nameEdit: (String) -> Unit) : ViewTypeDelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return ListHeaderViewHolder(parent.inflate(R.layout.task_list_header), nameEdit)
+        return ListHeaderViewHolder(parent.inflate(R.layout.tasks_header), nameEdit)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {

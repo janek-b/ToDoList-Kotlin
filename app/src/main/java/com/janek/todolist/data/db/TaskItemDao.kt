@@ -27,14 +27,14 @@ import io.reactivex.Flowable
     fun deleteTask(task: TaskItem)
 
 
-    @Query("select * from task_list")
+    @Query("select * from task_lists_item")
     fun getAllLists(): Flowable<List<TaskList>>
 
-    @Query("select * from task_list where id = :id")
+    @Query("select * from task_lists_item where id = :id")
     fun getList(id: Long): TaskList
 
     @Transaction
-    @Query("SELECT * FROM task_list WHERE id = :id")
+    @Query("SELECT * FROM task_lists_item WHERE id = :id")
     fun getListAndTasks(id: Long): Flowable<ListAndTasks>
 
     @Insert(onConflict = REPLACE)
